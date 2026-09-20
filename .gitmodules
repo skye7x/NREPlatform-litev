@@ -1,4 +1,4 @@
 [submodule "openwrt-19.07.10"]
 	path = openwrt-19.07.10
-	url = git@github.com:skye7x/openwrt-19.07.10-modernized.git
+	url = git@github.com:skye7x/skye7x-openwrt-19.07.10-litev.git
 	branch = main
