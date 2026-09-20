@@ -1,0 +1,28 @@
+# OpenWrt build output
+openwrt-19.07.10/build_dir/
+openwrt-19.07.10/staging_dir/
+openwrt-19.07.10/tmp/
+openwrt-19.07.10/bin/
+openwrt-19.07.10/logs/
+
+# OpenWrt generated configuration
+openwrt-19.07.10/.config
+openwrt-19.07.10/.config.old
+
+# OpenWrt feeds / generated files
+openwrt-19.07.10/feeds/
+openwrt-19.07.10/package/feeds/
+
+# Local/editor files
+*.swp
+*.swo
+*~
+.DS_Store
+.idea/
+.vscode/
+
+# Local build artifacts
+*.o
+*.a
+*.so
+nreplatformd
