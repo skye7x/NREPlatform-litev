@@ -1,4 +1,4 @@
-##ROUTER:
+## ROUTER:
 ``` 
 root@SRW-002:~# cat /tmp/sysinfo/model
 Linksys WRT160NL
@@ -13,7 +13,7 @@ DISTRIB_TAINTS=''
 root@SRW-002:~# 
 ``` 
 
-##PC:
+## PC:
 ``` 
 ❯ scp -O /home/bartek/Pobrane/openwrt-ar71xx-generic-wrt160nl-squashfs-sysupgrade.bin root@192.168.0.238:/tmp/
 ** WARNING: connection is not using a post-quantum key exchange algorithm.
@@ -23,12 +23,12 @@ openwrt-ar71xx-generic-wrt160nl-squashfs-sysupgrade.bin                         
 ❯ sha256sum /home/bartek/Pobrane/openwrt-ar71xx-generic-wrt160nl-squashfs-sysupgrade.bin
 9374de0ff3c9d35c15b82978ccfae2107db89548933e91533438449783a0c70f  /home/bartek/Pobrane/openwrt-ar71xx-generic-wrt160nl-squashfs-sysupgrade.bin
 ``` 
-##ROUTER: (sprawdzenie czy sie nie uszkodzilo)
+## ROUTER: (sprawdzenie czy sie nie uszkodzilo)
 ``` 
 sha256sum /tmp/openwrt-ar71xx-generic-wrt160nl-squashfs-sysupgrade.bin 
 ``` 
 
-##JAK SUMA SIE ZGADZA:
+## JAK SUMA SIE ZGADZA:
 ``` 
 sysupgrade /tmp/openwrt-ar71xx-generic-wrt160nl-squashfs-sysupgrade.bin
 ``` 
