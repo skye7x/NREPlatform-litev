@@ -1,6 +1,10 @@
+# Built by the OpenWrt package Makefile (cross) or by hand on a PC (native).
 CXX      ?= g++
-CXXFLAGS ?= -O2
-override CXXFLAGS += -std=c++17 -Wall -Wextra
+CXXFLAGS ?= -Os
+# GCC 7.5 / C++17, no exceptions and no RTTI to keep the binary small.
+override CXXFLAGS += -std=gnu++17 -Wall -Wextra -fno-exceptions -fno-rtti \
+                     -ffunction-sections -fdata-sections
+override LDFLAGS  += -Wl,--gc-sections
 LDLIBS   += -luci
 
 OBJS = main.o config.o netlink.o

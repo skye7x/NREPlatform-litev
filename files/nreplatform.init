@@ -1,5 +1,5 @@
 #!/bin/sh /etc/rc.common
-# NREPlatform LiteV daemon
+# NREPlatform LiteV daemon (procd)
 
 USE_PROCD=1
 START=99
@@ -8,10 +8,11 @@ STOP=10
 start_service() {
 	procd_open_instance
 	procd_set_param command /usr/sbin/nreplatformd
-	procd_set_param respawn
+	procd_set_param respawn 3600 5 5
 	procd_close_instance
 }
 
+# UCI changes: the daemon re-reads /etc/config/nreplatform on SIGHUP
 reload_service() {
 	procd_send_signal nreplatform
 }

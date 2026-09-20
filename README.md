@@ -1,19 +1,18 @@
-# nreplatform-litev
+# nreplatform-litev  (OpenWrt 19.07.10, Linux 4.14.275, mips_24kc, musl, GCC 7.5)
 
-C++17 OpenWrt package: `nreplatformd` + LuCI page (Network -> NREPlatform LiteV).
+C++17 daemon `nreplatformd` + LuCI page (Network -> NREPlatform LiteV).
+Direct rtnetlink (no libnl, no tc binary). Only UAPI present in Linux 4.14 is used.
 
-- Talks rtnetlink directly (no `tc` binary needed): netem qdisc for delay / jitter /
-  loss / rate, ifb + ingress redirect for the upload direction.
-- Reads /etc/config/nreplatform via libuci, reloads on SIGHUP (procd trigger),
-  re-applies rules when an interface reappears, removes everything on stop.
-- Status: /var/run/nreplatform.status (shown on the LuCI page).
-
-## Build (OpenWrt buildroot / SDK)
-
-    cp -r nreplatform-litev package/
-    make menuconfig        # Network -> nreplatform-litev
+## Build (buildroot 19.07.10)
+    cp -r nreplatform-litev  <buildroot>/package/
+    ./scripts/feeds update -a && ./scripts/feeds install -a     # for LuCI in the image
+    make menuconfig      # Network -> nreplatform-litev  (selects kmod-netem, kmod-sched, kmod-sched-core, kmod-ifb)
     make package/nreplatform-litev/compile V=s
 
-## Build on a PC for testing (needs libuci)
+## Host tests (no kernel needed)
+    cd tests && g++ -std=gnu++17 -I../src selftest.cpp ../src/netlink.cpp -o selftest && ./selftest
 
-    make -C src CPPFLAGS=-I/usr/local/include LDFLAGS=-L/usr/local/lib
+## On the router
+    nreplatformd -n            # dry run: shows ticks / bytes/s that would be sent
+    cat /var/run/nreplatform.status
+    logread -e nreplatformd

@@ -1,26 +1,38 @@
+#
+# NREPlatform LiteV - OpenWrt 19.07 package (nreplatformd + LuCI page)
+#
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nreplatform-litev
-PKG_VERSION:=1.0.0
+PKG_VERSION:=1.1.0
 PKG_RELEASE:=1
 
-PKG_MAINTAINER:=NREPlatform
 PKG_LICENSE:=Apache-2.0
+PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
 define Package/nreplatform-litev
   SECTION:=net
   CATEGORY:=Network
-  TITLE:=NREPlatform LiteV - per-port latency, packet loss and speed limits
-  DEPENDS:=+libstdcpp +libuci +kmod-sched +kmod-sched-core +kmod-ifb +luci-base
+  TITLE:=NREPlatform LiteV - per-port latency, jitter, loss and speed limit
+  # Real run-time needs only (checked against the 19.07.10 tree):
+  #   libstdcpp        C++ runtime of the daemon
+  #   libuci           /etc/config/nreplatform
+  #   kmod-sched-core  sch_ingress, cls_u32, act_mirred  (ingress redirect)
+  #   kmod-netem       sch_netem (depends on kmod-sched itself)
+  #   kmod-ifb         ifb.ko (upload direction)
+  # luci-base is intentionally NOT a hard dependency: it lives in the separate
+  # "luci" feed, which is what produced the "dependency on 'luci-base', which
+  # does not exist" warning. The LuCI page is only static files.
+  DEPENDS:=+libstdcpp +libuci +kmod-sched-core +kmod-netem +kmod-ifb
 endef
 
 define Package/nreplatform-litev/description
   C++ daemon (nreplatformd) that applies latency, jitter, packet loss and a
-  maximum speed to individual router ports using netem over rtnetlink,
-  configured from /etc/config/nreplatform, plus a LuCI page under
-  Network -> NREPlatform LiteV.
+  maximum speed to individual interfaces with netem over rtnetlink, plus a
+  LuCI page (Network -> NREPlatform LiteV) when LuCI 19.07 is installed.
+  Targets Linux 4.14: no libnl, no tc binary, no post-4.14 kernel UAPI.
 endef
 
 define Package/nreplatform-litev/conffiles
